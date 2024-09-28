@@ -1,0 +1,519 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap");
+
+* {
+    box-sizing: border-box;
+    font-family: "Fira Code", monospace;
+}
+
+/* Colour scheme:
+    https://coolors.co/12425b-ffa9e7-fbf2c0-c1292e-99c24d
+*/
+
+html,
+body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.select-wrapper {
+    padding: none;
+    position: relative;
+    display: inline-block;
+    height: 2em;
+}
+.select-wrapper select {
+    appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 0.4em;
+}
+.select-wrapper::after {
+    content: "V";
+    background-color: #000;
+    z-index: 1000;
+    pointer-events: none;
+    position: absolute;
+    right: 1em;
+    top: 0.5em;
+    bottom: 0.5em;
+    height: 1em;
+    line-height: 1em;
+    color: #eee;
+    padding-right: 0.25em;
+    padding-left: 0.25em;
+}
+
+input,
+button,
+select,
+.button {
+    padding: 0.5em;
+    border: 0.1px solid #000;
+    border-radius: 3px;
+    background-color: white;
+    height: 2em;
+    margin: 0;
+    vertical-align: middle;
+    font-size: 1em;
+    line-height: 1em;
+    display: inline-block;
+    text-decoration: none;
+    color: #000;
+}
+
+input[type="text"],
+input[type="time"] {
+    cursor: text;
+}
+
+label,
+button,
+.button,
+select,
+input[type="submit"] {
+    cursor: pointer;
+}
+
+input::placeholder {
+    color: #eeeeee;
+}
+
+input[type="submit"] {
+    background-color: #ffa9e7;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"][disabled] {
+    background-color: rgba(0, 0, 0, 0);
+    border: 0.1px solid #000;
+}
+
+input[disabled],
+.button[disabled],
+button[disabled],
+select[disabled] {
+    pointer-events: all;
+    cursor: not-allowed;
+    background-color: #eee;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+input:focus {
+    box-shadow: 0 0 3px 1px #ffa9e7;
+    background-color: #eeeeee;
+    outline: none;
+    color: #111;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.bg-blue {
+    background-color: #12425b;
+}
+
+.color-green {
+    color: #99c24d;
+}
+
+.color-red {
+    color: #c1292e;
+}
+
+.bg-orange {
+    background-color: #fa7921;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5em;
+    align-items: center;
+}
+.form-group input,
+.form-group .select-wrapper {
+    flex: 4;
+}
+.form-group label {
+    flex: 1;
+}
+
+.loading-ellipsis {
+    font-variant-ligatures: none;
+}
+
+.panel-bottom-message {
+    /* height: 1.5em; */
+    margin: 0;
+    padding: 0.1em;
+    font-size: 0.9em;
+    /* line-height: 0.9em; */
+}
+
+.panel {
+    padding: 2em;
+    padding-bottom: 0;
+    background-color: #fff;
+    width: 80%;
+    transition: width 0.1s linear;
+}
+
+.container {
+    padding: 1em;
+}
+
+.schedules-list-schedule {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.schedules-list-schedule > * {
+    margin: 0.5em;
+}
+
+.schedules-list-schedule > span {
+    flex: 1;
+}
+
+#symbols-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.symbol-row {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    justify-content: center;
+}
+
+.symbol-row > * {
+    margin: 0.5em;
+}
+
+.symbol-row input[type="text"] {
+    flex: 1;
+}
+
+.tag-view {
+    display: flex;
+    flex-direction: row;
+    border: 0.1px solid #000;
+    border-radius: 3px;
+    cursor: text;
+    padding: 0.5em;
+}
+
+.tag-view-tags {
+    display: flex;
+    flex-direction: row;
+}
+
+.tag-view-tag {
+    padding: 0.3em;
+    border: 0.1px solid #000;
+    border-radius: 1px;
+    margin: 0.1em;
+    cursor: pointer;
+    line-height: 110%;
+    transition: all 0.1s;
+    padding-bottom: 0;
+}
+
+.tag-view-input-container {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    position: relative;
+}
+
+.tag-view-suggestions {
+    position: absolute;
+    color: #000;
+    background-color: #fff;
+    border: 0.5px solid #000;
+    z-index: 100;
+    top: 100%;
+}
+.tag-view-suggestions div {
+    cursor: pointer;
+    padding: 0.2em;
+}
+.tag-view-suggestions div:hover {
+    background-color: #eee;
+}
+
+.tag-view-add {
+    flex: 1;
+    outline: none;
+    border: none;
+}
+
+.tag-view .tag-view-add:focus {
+    box-shadow: none;
+}
+
+.tag-view-tag:hover {
+    background-color: red;
+    color: white;
+    padding-bottom: 0;
+}
+.tag-view-tag::after {
+    opacity: 0;
+    transition: all 0.1s;
+    content: "␡";
+    z-index: 1000;
+    display: block;
+    height: 0.3em;
+    margin: 0;
+    position: relative;
+    top: 1px;
+}
+
+.tag-view-tag:hover::after {
+    opacity: 1;
+    width: 1em;
+    color: #000;
+}
+
+.tag-view:focus-within .tag-view-tag::after {
+    box-shadow: 0 0 3px 1px #ffa9e7;
+    background-color: #eeeeee;
+    outline: none;
+    color: #111;
+}
+
+.tag-view:focus-within {
+    box-shadow: 0 0 3px 1px #ffa9e7;
+    background-color: #eeeeee;
+    outline: none;
+    color: #111;
+}
+
+/* .tag-view:focus-within .tag-view-tag {
+    border: 0.1px solid #000;
+} */
+
+.schedule-period {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+}
+.schedule-controls {
+    padding: 0;
+}
+.schedule-period > *,
+.schedule-controls > * {
+    margin: 0.5em;
+}
+.schedule-period > input {
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+}
+.schedule-period > button {
+    padding-top: 1em;
+    padding-bottom: 2em;
+}
+.schedule-period .tag-view {
+    flex: 1;
+}
+
+#login h1 {
+    margin-bottom: 0.6em;
+}
+
+#calendar-floater {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+#calendar-floater a {
+    pointer-events: all;
+}
+
+#calendar-floater > * {
+    background-color: white;
+}
+
+body:has(#calendar-left) {
+    overflow: hidden;
+}
+#calendar-left,
+#calendar-right {
+    overflow-y: scroll;
+}
+
+#calendar-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 50%;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-x: visible;
+}
+#calendar-calendar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+#calendar-content,
+.calendar-week {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.calendar-week,
+#calendar-days-of-week {
+    display: flex;
+    flex-direction: row;
+}
+.passthrough {
+    pointer-events: none;
+}
+.calendar-day {
+    flex: 1;
+    text-overflow: ellipsis;
+    padding: 5px;
+    position: relative;
+}
+.calendar-day-no-schedule {
+    background-color: #000;
+    color: #fff;
+}
+.calendar-day-match-specialSchedule {
+    background-color: #ffa9e7;
+}
+.calendar-day-match-break {
+    background-color: #12425b;
+}
+.calendar-day .calendar-attribution {
+    display: none;
+    position: absolute;
+    top: 100%;
+    border: 1px solid #000;
+    background-color: white;
+    color: #000;
+    z-index: 100;
+    right: -100%;
+    left: -100%;
+    pointer-events: none;
+}
+.calendar-day:last-child .calendar-attribution {
+    right: 0;
+    left: -200%;
+}
+.calendar-day:first-child .calendar-attribution {
+    right: -200%;
+    left: 0;
+}
+#calendar-header-row {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    background-color: #ffa9e7;
+}
+
+#calendar-days-of-week {
+    font-weight: 600;
+    background-color: #eeeeee;
+    padding: 5px;
+}
+#calendar-header-month {
+    flex: 1;
+    text-align: center;
+    padding-top: 0.5em;
+}
+
+#calendar-right {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 0;
+    bottom: 0;
+    z-index: 998;
+}
+
+#configuration-save-push {
+    display: flex;
+    justify-content: center;
+}
+#configuration-save-push button {
+    margin: 0.5em;
+}
+
+#configuration-school-year-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#configuration-school-year-header h2 {
+    margin: 1em;
+}
+
+#mobile-calendar-content {
+    display: none;
+}
+.mobile-calendar-controls {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.mobile-calendar-controls * {
+    margin: 0.5em;
+}
+#calendar-calendar {
+    display: flex;
+}
+
+@media screen and (max-height: 500px),
+    screen and (max-height: 1000px) and (max-width: 1000px),
+    screen and (hover: none),
+    screen and (max-width: 1000px) {
+    body:has(#calendar-left) {
+        overflow: scroll;
+    }
+    #calendar-left,
+    #calendar-right {
+        position: relative;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    #calendar-calendar {
+        display: none;
+    }
+    #mobile-calendar-content {
+        display: block;
+    }
+}

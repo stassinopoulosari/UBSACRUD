@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../../style.css" />
+        <title>UBSACRUD - SCHEDULES</title>
+    </head>
+    <body>
+        <div class="container">
+            <a id="schedules-back-link" href="..">back</a>
+            <h1 id="schedules-header">
+                <span id="schedule-name"></span>
+                <span id="edit-schedule-name" style="display: none">
+                    <input type="text" id="edit-schedule-name-input" />
+                    <button id="edit-schedule-name-save">💾</button>
+                    <button id="edit-schedule-name-cancel">🚫</button>
+                </span>
+            </h1>
+            <div id="schedules-thinking">&nbsp;</div>
+            <div
+                id="schedule-controls-top"
+                class="schedule-controls"
+                style="display: none"
+            >
+                <button id="schedule-insert-beginning">+ add period</button>
+                <button id="schedule-save" style="visibility: hidden">
+                    💾
+                </button>
+            </div>
+            <div id="schedules-list">
+                loading<span class="loading-ellipsis"></span>
+            </div>
+            <div
+                id="schedule-controls-bottom"
+                class="schedule-controls"
+                style="display: none"
+            >
+                <button id="schedule-insert-end">+ add period</button>
+            </div>
+        </div>
+    </body>
+    <script src="./schedules.js" type="module"></script>
+</html>

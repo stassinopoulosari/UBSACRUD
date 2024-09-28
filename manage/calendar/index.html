@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../../style.css" />
+        <title>UBSACRUD - CALENDAR</title>
+    </head>
+    <body>
+        <div class="container" id="calendar-floater">
+            <a href="..">back</a>
+            <h1 class="passthrough">calendar</h1>
+        </div>
+        <div id="calendar-left" class="container">
+            <span class="passthrough">&nbsp;</span>
+            <h1 class="passthrough">&nbsp;</h1>
+            <div id="calendar-calendar">
+                <div id="calendar-header-row">
+                    <button id="calendar-header-prev">👈</button>
+                    <span id="calendar-header-month">&nbsp;</span>
+                    <button id="calendar-header-next">👉</button>
+                </div>
+                <div id="calendar-days-of-week">
+                    <div class="calendar-day">sun</div>
+                    <div class="calendar-day">mon</div>
+                    <div class="calendar-day">tue</div>
+                    <div class="calendar-day">wed</div>
+                    <div class="calendar-day">thu</div>
+                    <div class="calendar-day">fri</div>
+                    <div class="calendar-day">sat</div>
+                </div>
+                <div id="calendar-content"></div>
+            </div>
+            <div id="mobile-calendar-content"></div>
+        </div>
+        <div id="calendar-right" class="container">
+            <span class="color-red" id="configuration-header-error"
+                >&nbsp;</span
+            >
+            <h1>configuration</h1>
+            <div id="configuration-school-year-header">
+                <button id="configuration-school-year-prev">👈</button>
+                <h2 id="configuration-school-year-heading"></h2>
+                <button id="configuration-school-year-next">👉</button>
+            </div>
+            <div id="configuration-save-push">
+                <button id="configuration-save" disabled>
+                    save configuration
+                </button>
+                <button id="configuration-push" disabled>
+                    push to calendar
+                </button>
+            </div>
+            <div class="container" id="configuration-bounds">
+                <h3>bounds</h3>
+                <div class="form-group">
+                    <label for="configuration-bounds-startDate">start</label
+                    ><input type="date" id="configuration-bounds-startDate" />
+                </div>
+                <div class="form-group">
+                    <label for="configuration-bounds-endDate">end</label
+                    ><input type="date" id="configuration-bounds-endDate" />
+                </div>
+                <div class="form-group">
+                    <button
+                        id="configuration-bounds-create-school-year"
+                        disabled
+                    >
+                        create school year
+                    </button>
+                </div>
+                <div id="configuration-bounds-error" class="color-red">
+                    &nbsp;
+                </div>
+            </div>
+            <div id="configuration-auxiliaryControls">
+                <div class="container">
+                    <h3>default week</h3>
+                    <div id="configuration-defaultWeek"></div>
+                </div>
+                <div class="container">
+                    <h3>breaks</h3>
+                    <div id="configuration-breaks-error" class="color-red">
+                        &nbsp;
+                    </div>
+                    <div id="configuration-breaks" class="container"></div>
+                    <div class="container" id="configuration-addBreak">
+                        <div
+                            id="configuration-addBreak-error"
+                            class="color-red"
+                        >
+                            &nbsp;
+                        </div>
+                        <div class="form-group">
+                            <input
+                                type="date"
+                                id="configuration-addBreak-startDate"
+                            />&nbsp;–&nbsp;<input
+                                type="date"
+                                id="configuration-addBreak-endDate"
+                            />&nbsp;
+                            <div class="select-wrapper">
+                                <select
+                                    id="configuration-addBreak-schedule"
+                                ></select>
+                            </div>
+                            &nbsp;<button
+                                id="configuration-addBreak-add"
+                                disabled
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <h3>special schedules</h3>
+                    <div
+                        id="configuration-specialSchedules-error"
+                        class="color-red"
+                    >
+                        &nbsp;
+                    </div>
+
+                    <div
+                        id="configuration-specialSchedules"
+                        class="container"
+                    ></div>
+                    <div
+                        class="container"
+                        id="configuration-addSpecialSchedule"
+                    >
+                        <div
+                            id="configuration-addSpecialSchedule-error"
+                            class="color-red"
+                        >
+                            &nbsp;
+                        </div>
+
+                        <div class="form-group">
+                            <input
+                                type="date"
+                                id="configuration-addSpecialSchedule-date"
+                            />
+                            &nbsp;
+                            <div class="select-wrapper">
+                                <select
+                                    id="configuration-addSpecialSchedule-schedule"
+                                ></select>
+                            </div>
+                            &nbsp;<button
+                                id="configuration-addSpecialSchedule-add"
+                                disabled
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="integration.js" type="module"></script>
+</html>

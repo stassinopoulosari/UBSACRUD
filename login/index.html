@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../style.css" />
+
+        <title>UBSACRUD - LOG IN</title>
+    </head>
+    <body class="bg-blue center-content">
+        <form id="login" class="panel">
+            <h1>log in to UBSACRUD</h1>
+            <div class="form-group">
+                <label for="login-username">e-mail</label>
+                <input
+                    type="email"
+                    placeholder="user@host"
+                    id="login-username"
+                    required
+                />
+            </div>
+            <div class="form-group">
+                <input id="login-submit" type="submit" value="go" />
+            </div>
+            <div id="login-thinking" class="panel-bottom-message">&nbsp;</div>
+        </form>
+    </body>
+    <script src="./login.js" type="module"></script>
+</html>
