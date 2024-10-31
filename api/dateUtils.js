@@ -93,10 +93,9 @@ export const DAYS_OF_WEEK = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"],
   stringIntervalToComponentInterval = (dateInterval) =>
     dateInterval.map((dateString) => toComponents(dateString)),
   componentsToDate = (dateComponents) => {
-    const date = new Date();
+    const date = new Date(0);
     date.setYear(dateComponents[0]);
-    date.setMonth(dateComponents[1] - 1);
-    date.setDate(dateComponents[2]);
+    date.setMonth(dateComponents[1] - 1, dateComponents[2]);
     date.setHours(0);
     date.setMinutes(0);
     date.setSeconds(0);
