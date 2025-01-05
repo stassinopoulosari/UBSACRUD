@@ -55,4 +55,14 @@ export const signOut = () => auth.signOut(ubsa.auth),
           return resolve(db.ref(`schools/${instance}`));
         })
         .catch(reject);
+    }),
+  getConfigurationReferenceForUser = () =>
+    new Promise((resolve, reject) => {
+      checkUserValidity()
+        .then((userSnapshot) => {
+          const instance = userSnapshot.child("school").val();
+          if (instance === null) throw "User does not have a valid instance";
+          return resolve(db.ref(`configurations/${instance}`));
+        })
+        .catch(reject);
     });

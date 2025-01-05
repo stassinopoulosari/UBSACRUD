@@ -105,7 +105,7 @@ export const startConfigurationView = (
     };
 
     $page.configurationSave.onclick = () => {
-      configuration.lastUpdated = new Date().getTime();
+      configuration.lastUpdated = Math.floor(new Date().getTime() / 1000);
       saveConfiguration(configuration)
         .then(() => {
           $page.configurationSave.disabled = true;
@@ -159,8 +159,13 @@ export const startConfigurationView = (
           calendar[yearKey][monthKey] = monthSchedules.join(",");
         }
       }
-      saveCalendar(calendar)
+      const lastPushed = Math.floor(new Date().getTime() / 1000);
+      saveCalendar(calendar, lastPushed)
         .then(() => {
+          configuration.lastPushed = lastPushed;
+          saveConfiguration(configuration).catch(() => {
+            $page.headerError.innerText = "failed to save configuration.";
+          });
           $page.configurationPush.disabled = true;
           $page.headerError.innerHTML = "&nbsp;";
         })

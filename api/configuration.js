@@ -89,17 +89,15 @@ export const getScheduleForDateString = (configuration, dateString) => {
   //  special schedules
   //  breaks
 
-  saveConfiguration = (instanceRef, configurationObject) =>
+  saveConfiguration = (configurationRef, configurationObject) =>
     db.set(
-      db.child(instanceRef, `/configurations${CONFIGURATION_INTERSTITIAL}`),
+      db.child(configurationRef, `${CONFIGURATION_INTERSTITIAL}`),
       configurationObject,
     ),
-  getConfiguration = (instanceRef) =>
+  getConfiguration = (configurationRef) =>
     new Promise((resolve, reject) =>
       db
-        .get(
-          db.child(instanceRef, `/configurations${CONFIGURATION_INTERSTITIAL}`),
-        )
+        .get(db.child(configurationRef, `${CONFIGURATION_INTERSTITIAL}`))
         .then((configurationObjectSnapshot) =>
           resolve(configurationObjectSnapshot.val()),
         )
@@ -109,6 +107,6 @@ export const getScheduleForDateString = (configuration, dateString) => {
     db.push(
       db.child(
         instanceRef,
-        `/configurations${CONFIGURATION_INTERSTITIAL}/schoolYears/${schoolYear}/${kind}`,
+        `${CONFIGURATION_INTERSTITIAL}/schoolYears/${schoolYear}/${kind}`,
       ),
     ).key;
