@@ -2,12 +2,12 @@
 **Ari Stassinopoulos**
 
 ## what is this?
-This is an administrator interface for the [DHS Bell Schedule App]([url](https://github.com/stassinopoulosari/dhsbellschedule-ios)).
+This is an administrator interface for the [DHS Bell Schedule App](https://github.com/stassinopoulosari/dhsbellschedule-ios).
 The interface allows me to keep the schedule up to date and push updates to user devices. It also allows me to configure additional schedule behaviour without
 manually updating the mobile app.
 
 ## why?
-The [previous administrator interface](https://https://github.com/stassinopoulosari/UBSA-admin) was written over a very short amount of time for a school project
+The [previous administrator interface](https://github.com/stassinopoulosari/UBSA-admin) was written over a very short amount of time for a school project
 and was annoying to use regularly. I also wanted to use this project as an opportunity to explore parts of JavaScript which I had not used
 in the past, including ES6 modules and Objects, as well as to try and replicate UI patterns I would normally use a library for.
 
