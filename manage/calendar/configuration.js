@@ -211,6 +211,7 @@ export const startConfigurationView = (
 							"failed to save configuration.";
 					});
 					$page.configurationPush.disabled = true;
+					ui.attr($page.configurationReplicate, { disabled: null });
 					$page.headerError.innerHTML = "&nbsp;";
 				})
 				.catch(() => {
@@ -615,6 +616,13 @@ export const startConfigurationView = (
 							currentSchoolYear,
 							"breaks",
 						);
+						if (
+							!configuration.schoolYears[currentSchoolYear].breaks
+						) {
+							configuration.schoolYears[
+								currentSchoolYear
+							].breaks = {};
+						}
 						configuration.schoolYears[currentSchoolYear].breaks[
 							key
 						] = {
@@ -789,6 +797,14 @@ export const startConfigurationView = (
 						currentSchoolYear,
 						"specialSchedules",
 					);
+					if (
+						!configuration.schoolYears[currentSchoolYear]
+							.specialSchedules
+					) {
+						configuration.schoolYears[
+							currentSchoolYear
+						].specialSchedules = {};
+					}
 					configuration.schoolYears[
 						currentSchoolYear
 					].specialSchedules[key] = {
