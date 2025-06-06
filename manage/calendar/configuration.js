@@ -169,14 +169,14 @@ export const startConfigurationView = (
 							)[0] ?? "",
 						],
 					);
-				// Remove past school years
-				if (
-					compareDateStrings(
-						bounds.endDate,
-						dateToString(new Date()),
-					) < 0
-				)
-					return;
+				// Remove past school years. I decided not to do this because it removes even previous years still in the system
+				// if (
+				// 	compareDateStrings(
+				// 		bounds.endDate,
+				// 		dateToString(new Date()),
+				// 	) < 0
+				// )
+				// 	return;
 				dateComponentSchedulePairs.forEach((pair) => {
 					const [dateComponent, schedule] = pair;
 					let [year, month, date] = dateComponent;
