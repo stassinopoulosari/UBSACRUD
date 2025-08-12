@@ -1,13 +1,12 @@
 import { getScheduleForDateComponent } from "../../api/configuration.js";
 import {
 	compareDateStrings,
-	dateToString,
 	DAYS_OF_WEEK,
 	daysInMonth,
 	everyDateComponentOnInterval,
-	stringHasOverlap,
-	stringIntervalToComponentInterval,
-	stringOnInterval,
+	dateStringHasOverlap,
+	dateStringIntervalToComponentInterval,
+	dateStringIsOnInterval,
 } from "../../api/dateUtils.js";
 import * as ui from "../../shared/ui.js";
 
@@ -136,6 +135,7 @@ export const startConfigurationView = (
 
 		$page.configurationSave.onclick = () => {
 			configuration.lastUpdated = Math.floor(new Date().getTime() / 1000);
+			updateBounds();
 			saveConfiguration(configuration)
 				.then(() => {
 					$page.configurationSave.disabled = true;
@@ -154,7 +154,7 @@ export const startConfigurationView = (
 			Object.values(configuration.schoolYears).forEach((schoolYear) => {
 				const bounds = schoolYear.bounds,
 					everyDateComponent = everyDateComponentOnInterval(
-						stringIntervalToComponentInterval([
+						dateStringIntervalToComponentInterval([
 							bounds.startDate,
 							bounds.endDate,
 						]),
@@ -169,14 +169,14 @@ export const startConfigurationView = (
 							)[0] ?? "",
 						],
 					);
-				// Remove past school years. I decided not to do this because it removes even previous years still in the system
-				// if (
-				// 	compareDateStrings(
-				// 		bounds.endDate,
-				// 		dateToString(new Date()),
-				// 	) < 0
-				// )
-				// 	return;
+				// We don't need past school years once they are complete
+				if (
+					compareDateStrings(
+						bounds.endDate,
+						dateToString(new Date()),
+					) < 0
+				)
+					return;
 				dateComponentSchedulePairs.forEach((pair) => {
 					const [dateComponent, schedule] = pair;
 					let [year, month, date] = dateComponent;
@@ -235,6 +235,57 @@ export const startConfigurationView = (
 			showAuxiliaryControls();
 		}
 	},
+	updateBounds = () => {
+		if (
+			$page.bounds.startDate.value !== "" &&
+			$page.bounds.endDate.value !== "" &&
+			compareDateStrings(
+				$page.bounds.startDate.value,
+				$page.bounds.endDate.value,
+			) < 0
+		) {
+			if (isNewSchoolYear) {
+				ui.update($page.bounds.createSchoolYear, {
+					disabled: false,
+				});
+			} else {
+				const schoolYears = configuration.schoolYears;
+				if (
+					Object.keys(schoolYears).every(
+						(schoolYearKey) =>
+							schoolYearKey === currentSchoolYear ||
+							!dateStringHasOverlap(
+								[
+									schoolYears[schoolYearKey].bounds.startDate,
+									schoolYears[schoolYearKey].bounds.endDate,
+								],
+								[
+									$page.bounds.startDate.value,
+									$page.bounds.endDate.value,
+								],
+							),
+					)
+				) {
+					configuration.schoolYears[currentSchoolYear].bounds = {
+						startDate: $page.bounds.startDate.value,
+						endDate: $page.bounds.endDate.value,
+					};
+					notifyChange();
+					reloadCalendar(configuration);
+					$page.bounds.error.innerHTML = "&nbsp;";
+				} else {
+					$page.bounds.error.innerHTML =
+						"bounds overlap with another school year";
+				}
+			}
+		} else {
+			if (isNewSchoolYear) {
+				ui.update($page.bounds.createSchoolYear, {
+					disabled: true,
+				});
+			}
+		}
+	},
 	renderBounds = (bounds, isNewSchoolYear) => {
 		if (isNewSchoolYear) {
 			ui.style(
@@ -246,59 +297,13 @@ export const startConfigurationView = (
 		} else {
 			ui.style($page.bounds.createSchoolYear, { display: "none" });
 		}
-		$page.bounds.startDate.onkeyup = $page.bounds.endDate.onkeyup = () => {
-			if (
-				$page.bounds.startDate.value !== "" &&
-				$page.bounds.endDate.value !== "" &&
-				compareDateStrings(
-					$page.bounds.startDate.value,
-					$page.bounds.endDate.value,
-				) < 0
-			) {
-				if (isNewSchoolYear) {
-					ui.update($page.bounds.createSchoolYear, {
-						disabled: false,
-					});
-				} else {
-					const schoolYears = configuration.schoolYears;
-					if (
-						Object.keys(schoolYears).every(
-							(schoolYearKey) =>
-								schoolYearKey === currentSchoolYear ||
-								!stringHasOverlap(
-									[
-										schoolYears[schoolYearKey].bounds
-											.startDate,
-										schoolYears[schoolYearKey].bounds
-											.endDate,
-									],
-									[
-										$page.bounds.startDate.value,
-										$page.bounds.endDate.value,
-									],
-								),
-						)
-					) {
-						configuration.schoolYears[currentSchoolYear].bounds = {
-							startDate: $page.bounds.startDate.value,
-							endDate: $page.bounds.endDate.value,
-						};
-						notifyChange();
-						reloadCalendar(configuration);
-						$page.bounds.error.innerHTML = "&nbsp;";
-					} else {
-						$page.bounds.error.innerHTML =
-							"bounds overlap with another school year";
-					}
-				}
-			} else {
-				if (isNewSchoolYear) {
-					ui.update($page.bounds.createSchoolYear, {
-						disabled: true,
-					});
-				}
-			}
-		};
+		$page.bounds.startDate.onkeyup =
+			$page.bounds.endDate.onkeyup =
+			$page.bounds.startDate.onkeydown =
+			$page.bounds.endDate.onkeydown =
+			$page.bounds.startDate.onblur =
+			$page.bounds.endDate.onblur =
+				updateBounds;
 		$page.bounds.createSchoolYear.onclick = () => {
 			if (isNewSchoolYear) {
 				if (
@@ -314,7 +319,7 @@ export const startConfigurationView = (
 						Object.keys(schoolYears).every(
 							(schoolYearKey) =>
 								schoolYearKey === currentSchoolYear ||
-								!stringHasOverlap(
+								!dateStringHasOverlap(
 									[
 										schoolYears[schoolYearKey].bounds
 											.startDate,
@@ -476,7 +481,7 @@ export const startConfigurationView = (
 					$scheduleSelect.value !== (breakObject.schedule ?? ""))
 			) {
 				if (
-					stringOnInterval(
+					dateStringIsOnInterval(
 						$startDate.value,
 						[
 							configuration.schoolYears[currentSchoolYear].bounds
@@ -486,7 +491,7 @@ export const startConfigurationView = (
 						],
 						true,
 					) &&
-					stringOnInterval(
+					dateStringIsOnInterval(
 						$endDate.value,
 						[
 							configuration.schoolYears[currentSchoolYear].bounds
@@ -591,7 +596,7 @@ export const startConfigurationView = (
 					) <= 0
 				) {
 					if (
-						stringOnInterval(
+						dateStringIsOnInterval(
 							$page.breaks.add.startDate.value,
 							[
 								configuration.schoolYears[currentSchoolYear]
@@ -601,7 +606,7 @@ export const startConfigurationView = (
 							],
 							true,
 						) &&
-						stringOnInterval(
+						dateStringIsOnInterval(
 							$page.breaks.add.endDate.value,
 							[
 								configuration.schoolYears[currentSchoolYear]
@@ -698,7 +703,7 @@ export const startConfigurationView = (
 		$saveButton.onclick = () => {
 			if ($dateInput.value !== "" && $scheduleSelect.value !== "") {
 				if (
-					stringOnInterval(
+					dateStringIsOnInterval(
 						$dateInput.value,
 						[
 							configuration.schoolYears[currentSchoolYear].bounds
@@ -782,7 +787,7 @@ export const startConfigurationView = (
 				$page.specialSchedules.add.schedule.value !== ""
 			) {
 				if (
-					stringOnInterval(
+					dateStringIsOnInterval(
 						$page.specialSchedules.add.date.value,
 						[
 							configuration.schoolYears[currentSchoolYear].bounds
